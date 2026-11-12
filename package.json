@@ -1,0 +1,47 @@
+{
+  "name": "dsh-rightbar-max-keep-rail",
+  "version": "0.1.1",
+  "description": "DeepSeek Harness 插件：右侧边栏的「面板全屏」改为覆盖会话区、保留左侧栏——全屏面板从左侧会话列表栏的右缘开始铺到窗口右缘，不再连同会话列表一起盖住。纯客户端，一条 CSS + 一次量宽，不改 core 一行代码。",
+  "license": "MIT",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
+    "./cordis.patch.yml": "./cordis.patch.yml"
+  },
+  "files": [
+    "lib",
+    "assets",
+    "cordis.patch.yml",
+    "screenshots.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dsh-plugin",
+    "rightbar",
+    "sidebar",
+    "fullscreen",
+    "layout"
+  ],
+  "scripts": {
+    "test": "node --test --test-concurrency=1 test/*.test.mjs"
+  },
+  "dsh": {
+    "verifiedAgainst": "0.2.2-rc.1",
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": []
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

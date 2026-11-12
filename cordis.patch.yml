@@ -1,0 +1,6 @@
+# dsh-rightbar-max-keep-rail bundle patch：插入一行插件。
+# row 的 name 必须等于 npm 包名，也等于 lib/index.js 的 name 导出；
+# 浏览器半由 client-modules 按这一行发现（package.json 的 dsh.client + exports["./client"]）。
+- insert:
+    - id: rightbar-max-keep-rail
+      name: 'dsh-rightbar-max-keep-rail'

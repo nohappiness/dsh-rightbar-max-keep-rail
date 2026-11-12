@@ -1,0 +1,57 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>dsh-rightbar-max-keep-rail · 浏览器夹具</title>
+<!--
+  复刻 ui-layout / ui-sidebar-right 的 DOM 契约，用来在真浏览器里量像素：
+    · frame  = display:grid，三列「左栏 px | 会话 minmax | 右侧栏 minmax」，
+               全屏时带 data-rightbar-fullscreen（AppFrame.tsx:294,305）
+    · panel  = position:absolute; inset:0 0 0 auto，data-sidebar-right-panel="fullscreen"，
+               width 与 --dsh-sidebar-width 都是宿主内联写的 100vw（SidebarRight.tsx:342）
+  所有样式都抄自 core 的两份 CSS，只把哈希类名换成 id。
+-->
+<style>
+  /* DSH 的 base.css 是全局 border-box；夹具必须一致，否则 padding 会把量到的矩形撑宽。 */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; background: #0f1115; }
+  #frame {
+    position: relative;
+    display: grid;
+    grid-template-columns: 264px minmax(560px, 1fr) minmax(0px, 0px);
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+  #left { background: #1b1e24; color: #d7dae0; font: 13px/1.5 system-ui; padding: 8px; }
+  #main { background: #0f1115; color: #9aa4b2; font: 13px/1.5 system-ui; padding: 8px; }
+  /* 全屏面板：core 里 background 由主题给，这里给一个不透明色以便看清覆盖范围 */
+  #panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    --dsh-sidebar-width: 100vw;
+    background: #2a2f3a;
+    color: #e6e9ee;
+    font: 13px/1.5 system-ui;
+    padding: 8px;
+    overflow: clip;
+  }
+  #out { position: fixed; left: 0; bottom: 0; max-height: 45vh; overflow: auto; margin: 0;
+         background: #000; color: #7ee787; font: 11px/1.4 ui-monospace; padding: 6px; white-space: pre; }
+</style>
+<body>
+  <div id="frame" data-rightbar-fullscreen>
+    <aside id="left">会话列表</aside>
+    <main id="main">会话正文</main>
+    <div id="panel" data-sidebar-right-panel="fullscreen">右侧栏（全屏）</div>
+  </div>
+  <pre id="out"></pre>
+
+  <script>
+    // 与真实浏览器一致：bundle 通过 window.__ModuleLoader__ 自注册。
+    window.__ModuleLoader__ = { load(registration) { window.__registration = registration } }
+  </script>
+  <script src="../lib/client.js"></script>
+  <script src="./check.js"></script>
+</body>
